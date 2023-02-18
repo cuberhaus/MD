@@ -6,3 +6,6 @@ num_question_marks <- sum(db == "?", na.rm = TRUE)
 total_cells = ncol(db) * nrow(db)
 # grepl returns whether that value is found or not
 col_percents <- colSums(sapply(db, function(x) grepl("\\?", x)))/ nrow(db) * 100
+col_percents
+average_missing <- (sum(col_percents, na.rm = TRUE) / length(col_percents)) 
+average_missing
