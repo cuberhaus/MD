@@ -14,3 +14,12 @@ col_percents
 
 average_missing <- (sum(col_percents, na.rm = TRUE) / length(col_percents)) 
 average_missing
+
+summary(db)
+# Get all the unique values for each column
+unique_values <- lapply(df, unique)
+unique_values <- lapply(db, function(x) length(unique(x)))
+
+# Need to use one-hot encoding first
+cor_mat<- cor(db)
+corrplot(cor_mat, method="circle")
