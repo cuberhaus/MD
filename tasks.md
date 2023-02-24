@@ -7,4 +7,5 @@ Data visualization (1)
 2.4. Impute missing data or remove variables if too many are missing (Feature selection) (2)
 3. PCA (4)
 4. KNN (5)
-
+5. Document (word style)
+6. Powerpoint
