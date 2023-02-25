@@ -2,34 +2,34 @@
 
 ## Structure of the repository
 
-MD/  
-├── data/  
-│   ├── raw_data/  
-│   ├── processed_data/  
-│   ├── train_data/  
-│   └── test_data/  
-├── models/  
-│   ├── model_1/  
-│   ├── model_2/  
-│   ├── model_3/  
-│   └── ...  
-├── src/  
-│   ├──   
-│   └── ...  
-├── docs/  
-│   ├──   
-│   └── ...  
-├── slides/  
-│   └── ...  
-├── reports/  
-│   ├── D1/  
-│   ├── D2/  
-│   ├── D3/  
-│   ├── D4/  
-│   ├── D5/  
-│   └── ...  
-├── README.md  
-└── requirements.txt  
+MD/  <br>
+├── data/  <br>
+│   ├── raw_data/  <br>
+│   ├── processed_data/  <br>
+│   ├── train_data/  <br>
+│   └── test_data/  <br>
+├── models/  <br>
+│   ├── model_1/  <br>
+│   ├── model_2/  <br>
+│   ├── model_3/  <br>
+│   └── ...  <br>
+├── src/  <br>
+│   ├──   <br>
+│   └── ...  <br>
+├── docs/  <br>
+│   ├──   <br>
+│   └── ...  <br>
+├── slides/  <br>
+│   └── ...  <br>
+├── reports/  <br>
+│   ├── D1/  <br>
+│   ├── D2/  <br>
+│   ├── D3/  <br>
+│   ├── D4/  <br>
+│   ├── D5/  <br>
+│   └── ...  <br>
+├── README.md  <br>
+└── requirements.txt  <br>
 
 - data/: This directory contains all the data used in the project. The raw_data/ directory contains the raw data, the processed_data/ directory contains the preprocessed data, the train_data/ directory contains the data used for training the models, and the test_data/ directory contains the data used for testing the models.
 
