@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="MD" company="" webLink="http://" view-date="2023-02-25" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="3.1.3103" locale="es_ES">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="167" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="65" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="64" order="2"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="210" order="0"/>
+        <field id="1" name="Función" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Data visualization" color="#8cb6ce" meeting="false" start="2023-02-27" duration="4" complete="0" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+        <task id="2" name="Risk Plan and Gantt" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="0" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+        <task id="4" name="Redundancy data" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="5" name="Transform categorical with one-hot encoding" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="6" name="Factors to describe the data" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="7" name="Impute missing data or remove variables" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="8" name="PCA" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="9" name="KNN" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="10" name="Document" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+        <task id="11" name="Powerpoint" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="0" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
