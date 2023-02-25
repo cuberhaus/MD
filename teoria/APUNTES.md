@@ -15,7 +15,7 @@ Queremos datos de calidad.
 
 2. [STADISTICAL SAMPLING]: Si hay mucho sample (n): hay que seguir una STADISTICAL SAMPLING para coger una pequena parte de la poblacion. 
 
-3. [REDUNDANCY DATA]: Para var/deatures. Explotatory analisis, basics statistic. Eliminar los reduntantes y representar los mas relevantes.
+3. [REDUNDANCY DATA]: Para var/features. Explotatory analisis, basics statistic. Eliminar los reduntantes y representar los mas relevantes.
     * visualization: plots, barplots, recharts, correlation matrix, contigency tables. 
     
     NUMERICAL FEATURES: poner en grafica dos features(variables) numericas,  si la grafica presenta una relacion lineal incluso si hay algun punto fuera de lo normal, se ve que hay una relacion entre las dos variables (linial relation ship). Si hace una curba, entonces tiene una polinomical relation ship. Si no sigue nigun Patron, las var no tienen relacion. 
