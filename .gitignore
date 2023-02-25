@@ -4,6 +4,8 @@
 # R
 .RData
 .Rhistory
+.Rproj.user
+
 
 # Windows
 con
@@ -28,3 +30,4 @@ lpt6
 lpt7
 lpt8
 lpt9
+
