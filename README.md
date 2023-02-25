@@ -39,7 +39,7 @@ MD/  <br>
 
 - docs/: This directory contains project documentation, such as a project plan, a user manual, or any other relevant documents.
 
-- slides/: This directory contains slides related to the project.
+- slides/: This directory contains slides related to the project given in class.
 
 - reports/: This directory contains reports generated from the project, such as papers, presentations, and other documents. Each subdirectory within this directory could correspond to a specific project deliverable or milestone, such as D1 for the first project deliverable, D2 for the second, and so on.
 
