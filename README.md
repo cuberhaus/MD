@@ -14,10 +14,8 @@ MD/  <br>
 │   ├── model_3/  <br>
 │   └── ...  <br>
 ├── src/  <br>
-│   ├──   <br>
 │   └── ...  <br>
 ├── docs/  <br>
-│   ├──   <br>
 │   └── ...  <br>
 ├── slides/  <br>
 │   └── ...  <br>
@@ -27,6 +25,8 @@ MD/  <br>
 │   ├── D3/  <br>
 │   ├── D4/  <br>
 │   ├── D5/  <br>
+│   └── ...  <br>
+├── misc/  <br>
 │   └── ...  <br>
 ├── README.md  <br>
 └── requirements.txt  <br>
@@ -42,6 +42,8 @@ MD/  <br>
 - slides/: This directory contains slides related to the project given in class.
 
 - reports/: This directory contains reports generated from the project, such as papers, presentations, and other documents. Each subdirectory within this directory could correspond to a specific project deliverable or milestone, such as D1 for the first project deliverable, D2 for the second, and so on.
+
+- misc/ or other/: This directory contains files or resources that do not fit into any of the other existing directories in the project repository. The contents of the "misc" folder may be unrelated to the main goals or components of the project, but they may still be useful or relevant to the project. Examples of files or resources that may be stored in a "misc" folder include temporary files or backups, files used for testing or experimentation, or documentation or resources related to the project, but not directly used by any of the other directories. By keeping these files organized in a separate directory, it helps to keep the other directories clean and focused on the main objectives of the project.
 
 - README.md: This file contains a brief description of the project, its goals, and its outcomes.
 
