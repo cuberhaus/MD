@@ -29,7 +29,7 @@ Queremos datos de calidad.
 5. [MISSING DATA]: En algun caso tenemos que encontrar algun valor para estos datos. Tenemos algunos estrategias: 
     * Si el database tiene menos de 5% de missing data: lo podemos eliminar e ignorar, pero dependiendo de los samples que tienes, por eso solo se usa en Large databases. NO CONSIDER ARTIFICIAL INDIVIDUES (altificial rows). Si tienes una columna con mucha MISSING DATA, lo podemos eliminar. 
 
-    * Type missing data
+    * Type missing data (Imputation)
         * MCAR: Missing completely at random data, not a clear INTENSION to make this misstake. Create artificial value, SEX: ''
         * MAR: With intension, SEX: NA, pero podemos usar el nombre de la persona para determinar el sexo.
         * MNAR: si no es random, es dato no es valido, y ir al principio y recolectar los datos otra vez. 
@@ -42,8 +42,33 @@ Queremos datos de calidad.
     * Outlier: fuera de relacion (very different behaviour to others), hay que detectarlos, y hacer desiciones de los outliers. NOT REMOVE OUTLIERS. because outliers are telling us where occurs the problems. 
         * Use BOXPLOT or CLASSICAL PLOTS to found outliers. PCA -> tool for detect outliers. BAR PLOTS
 
-    
+    ----------------------------------------------------------------
 
+    Quizz: Introduction, preprocessing, PCA
+
+    **After preprocessing**
+    
+    * COMPARE OUR RESULTS: analizar las graficas(e.g de un feature) con los datos origiales y compararlos con los datos After preprocessing. Para que la imputacion sea correcta, las dos graficas deben tener un comportamiento muy parecido. 
+
+    * FACTORIAL ANALYSIS: Despues de Preprocessing tenemos la siguiente informacion: X1 correlated with X3, Redundancy X4 and X7, Some features are more important than others. 
+    -> En este paso queremos reducir el taman.o de los features(Xi). La nueva dimension Rj << Xi. Rj es una aproximacion de Xi, j mejor que sea entre 2 y 3 dimensiones, para una mejor representacion con graficas. 
+        * Usaremos PCA(principal component analysis): Se conserva los individuos (samples), pero con menor nuemro de features(Xi). Con algebra linear conseguir INDEPENDENCE WITH PCs. Si PC1 y PC2 tiene un angula de 90 grados -> es INDEPENDENCE. Idea: MAXIMIZE the variability with components that linear combinations independent. SVD(spectral Descomposition) -> COVariance. Correlation matrix. Ejemplo: PC1 = uX1 + dX2 ....
+        
+        * Tendremos K factores que seran combinacion lineal de variables originales. 
+
+        
+        * Conclusion:  
+            1. Relationships between all p features and components, in only one step.     
+            
+            2. Latent variables(PCA MOST IMPORTANT) -> Breaf descriptions about your PCs
+
+            3. REDUCTION of dimension-> for others methods. 
+
+        
+        * Two categorical featues -> CA corresponding aplica
+
+        * Input for PCA -> Euclidian distance for individus(rows), features (colums) get correlation and covariance. Need to be NORMALIZED (Xi - X)/sigma/  (X is average). for similar feature "CENTER" Xi - X.  
+        
 
 
 
