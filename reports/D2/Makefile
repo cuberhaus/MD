@@ -4,9 +4,9 @@ files := $(filter-out ./Makefile, $(files))
 files := $(filter-out ./D2.zip, $(files))
 
 ifeq ($(OS),Windows_NT)
-	remove = del polCasacubertaSPMatriculas.zip
+	remove = del D2.zip
 else
-	remove = rm -f polCasacubertaSPMatriculas.zip
+	remove = rm -f D2.zip
 endif
 
 D2.zip: $(files)
