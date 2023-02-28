@@ -20,8 +20,44 @@ summary(db)
 unique_values <- lapply(df, unique)
 unique_values <- lapply(db, function(x) length(unique(x)))
 
+db <- db[, -26]
+db <- db[, -27]
+db <- db[, -28]
+db <- db[, -30]
+
+install.packages("caret")
+library(caret)
+
+#define one-hot encoding function
+dummy <- dummyVars(" ~ .", data=db)
+
+#perform one-hot encoding on data frame
+db_hot <- data.frame(predict(dummy, newdata=db))
 # Need to use one-hot encoding first
 
-cor_mat<- cor(db)
+# Load the dplyr package
+#install.packages("dplyr")
+library(dplyr)
+
+# Write the data frame to a CSV file
+write.table(data, file = "data/processed_data/one_hot_db.csv", sep = ",", row.names = FALSE)
+
+# Select only the categorical variables
+numerical_data <- select_if(db, is.numeric)
+categorical_data <- select_if(db, is.character)
+
+# Perform PCA on the data
+pca <- prcomp(numerical_data, scale. = TRUE)
+
+# View the results
+summary(pca)
+
+#write.table(data, file = "data/processed_data/one_hot_db.csv", sep = ",", row.names = FALSE)
+
+install.packages("corrplot")
+
+# Load the corrplot package
+library(corrplot)
+cor_mat<- cor(db_hot)
 corrplot(cor_mat, method="circle")
 colnames(db) <- c("age", "class of worker", "detailed industry recode", "detailed occupation recode", "education", "wage per hour", "enroll in edu inst last wk", "marital stat", "major industry code", "major occupation code", "race", "hispanic origin", "sex", "member of a labor union", "reason for unemployment", "full or part time employment stat", "capital gains", "capital losses", "dividends from stocks", "tax filer stat", "region of previous residence", "state of previous residence", "detailed household and family stat", "detailed household summary in household", "instance weight", "migration code-change in msa", "migration code-change in reg", "migration code-move within reg", "live in this house 1 year ago", "migration prev res in sunbelt", "num persons worked for employer", "family members under 18", "country of birth father", "country of birth mother", "country of birth self", "citizenship", "own business or self employed", "fill inc questionnaire for veteran's admin", "veterans benefits", "weeks worked in year", "year", "income")
