@@ -1,0 +1,42 @@
+# Preprocessing
+dir <- getwd()
+db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
+
+colnames(db) <- c("age", "class of worker", "detailed industry recode", "detailed occupation recode", "education", "wage per hour", "enroll in edu inst last wk", "marital stat", "major industry code", "major occupation code", "race", "hispanic origin", "sex", "member of a labor union", "reason for unemployment", "full or part time employment stat", "capital gains", "capital losses", "dividends from stocks", "tax filer stat", "region of previous residence", "state of previous residence", "detailed household and family stat", "detailed household summary in household", "instance weight", "migration code-change in msa", "migration code-change in reg", "migration code-move within reg", "live in this house 1 year ago", "migration prev res in sunbelt", "num persons worked for employer", "family members under 18", "country of birth father", "country of birth mother", "country of birth self", "citizenship", "own business or self employed", "fill inc questionnaire for veteran's admin", "veterans benefits", "weeks worked in year", "year", "income")
+
+library(dplyr)
+categorical_data <- select_if(db, is.character)
+colnames(categorical_data)
+# Declaring Factors
+
+sapply(categorical_data, class)
+
+WorkerClass <- factor("class of worker")
+Education <- factor("education")
+EnrollInEdu <- factor("enroll in edu inst last wk")
+MaritalStat <- factor("marital stat")
+IndustryCode <- factor("major industry code")
+OccupationCode <- factor("major occupation code")
+Race <- factor("race")
+HispanicOrigin <- factor("hispanic origin")
+Sex <- factor("sex")
+MemeberLabor <- factor("member of a labor union")
+ReasonUnemployment <- factor("reason for unemployment")
+TypeEmployment <- factor("full or part time employment stat")
+TaxStat <- factor("tax filer stat")
+ResidenceRegion <- factor("region of previous residence")
+PreviousResidence <- factor("state of previous residence")
+FamilyStat <- factor("detailed household and family stat")
+DetailedHouseholdSummary <- factor("detailed household summary in household")
+MSA <- factor("migration code-change in msa")
+MSAREG <- factor("migration code-change in reg")
+MCMWithinREG <- factor("migration code-move within reg")
+LiveinHouse <- factor("live in this house 1 year ago")
+PrevMigration <- factor("migration prev res in sunbelt")
+FamilyMembersUnder18 <- factor("family members under 18")
+FatherBirthCountry<- factor("country of birth father")
+MotherBirthCountry <- factor("country of birth mother")
+BirthCountry <- factor("country of birth self")
+Citizenship <- factor("citizenship")
+VeteranQuestionnaire <- factor("fill inc questionnaire for veteran's admin")
+Income <- factor("income")
