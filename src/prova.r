@@ -20,6 +20,7 @@ summary(db)
 unique_values <- lapply(df, unique)
 unique_values <- lapply(db, function(x) length(unique(x)))
 
+# We take out these columns because there are too many missing values >50%
 db <- db[, -26]
 db <- db[, -27]
 db <- db[, -28]
@@ -64,4 +65,34 @@ cor_mat<- cor(numerical_data)
 cor_mat[upper.tri(cor_mat)] <- NA
 
 corrplot(cor_mat, method="circle")
+
+# Perform an ANOVA test for each numerical variable and each categorical variable
+for (col in names(data_dummy)) {
+  if (is.numeric(data_dummy[, col])) {
+    for (cat in names(data_dummy)[!names(data_dummy) %in% col]) {
+      anova_result <- aov(data_dummy[, col] ~ data_dummy[, cat])
+      print(paste0("ANOVA for ", col, " and ", cat))
+      print(summary(anova_result))
+    }
+  }
+}
+
+# Calculate effect size measures for the ANOVA tests
+library(rstatix)
+for (col in names(data_dummy)) {
+  if (is.numeric(data_dummy[, col])) {
+    for (cat in names(data_dummy)[!names(data_dummy) %in% col]) {
+      anova_result <- aov(data_dummy[, col] ~ data_dummy[, cat])
+      eta_squared <- anova_test(anova_result) %>% 
+        get_anova_table() %>% 
+        eta_squared()
+      print(paste0("Effect size for ", col, " and ", cat))
+      print(eta_squared)
+    }
+  }
+}
 colnames(db) <- c("age", "class of worker", "detailed industry recode", "detailed occupation recode", "education", "wage per hour", "enroll in edu inst last wk", "marital stat", "major industry code", "major occupation code", "race", "hispanic origin", "sex", "member of a labor union", "reason for unemployment", "full or part time employment stat", "capital gains", "capital losses", "dividends from stocks", "tax filer stat", "region of previous residence", "state of previous residence", "detailed household and family stat", "detailed household summary in household", "instance weight", "migration code-change in msa", "migration code-change in reg", "migration code-move within reg", "live in this house 1 year ago", "migration prev res in sunbelt", "num persons worked for employer", "family members under 18", "country of birth father", "country of birth mother", "country of birth self", "citizenship", "own business or self employed", "fill inc questionnaire for veteran's admin", "veterans benefits", "weeks worked in year", "year", "income")
+
+
+# KNN
+
