@@ -4,27 +4,10 @@
 
 
 ```{r}
+# ENVIROMENT 
 
-
-#dir <- getwd()
-dir <- "/home/he/Desktop/MD/"
-columns = c('age', 'class_of_worker', 'detailed_industry_recode', 'detailed_occupation_recode',
-           'education', 'wage_per_hour', 'enroll_in_edu_inst_last_wk', 'marital_stat', 'major_industry_code',
-           'major_occupation_code', 'race', 'hispanic_origin', 'sex', 'member_of_a_labor_union',
-           'reason_for_unemployment', 'full_or_part_time_employment_stat', 'capital_gains', 'capital_losses',
-           'dividends_from_stocks', 'tax_filer_stat', 'region_of_previous_residence', 'state_of_previous_residence',
-           'detailed_household_and_family_stat')
-
-
-db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
-
-#mean(is.na(db)) * 100
-#num_question_marks <- sum(db == "?", na.rm = TRUE)
-#total_cells = ncol(db) * nrow(db)
-```
-
-```{r}
-
+#dir <- getwd()     # descomenta esto si lo quieres usar en tu ordenador
+dir <- "/home/he/Desktop/MD/" 
 col_names <- variable_names <- c("age", "class of worker", "detailed industry recode", 
                     "detailed occupation recode", "education", "wage per hour", 
                     "enroll in edu inst last wk", "marital stat", "major industry code", 
@@ -42,8 +25,73 @@ col_names <- variable_names <- c("age", "class of worker", "detailed industry re
                     "own business or self employed", "fill inc questionnaire for veteran's admin", 
                     "veterans benefits", "weeks worked in year", "year")
 
+
+db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
+
 # Assign the column names to the data frame
 colnames(db) <- col_names
+
+```
+#mean(is.na(db)) * 100
+#num_question_marks <- sum(db == "?", na.rm = TRUE)
+#total_cells = ncol(db) * nrow(db)
+
+
+```{r}
+
+# transformacion missing values to NA
+db[db == "Not in universe"] <- NA
+db[db == "Not in universe or children"] <- NA
+db[db == "?"] <- NA
+db[db == "Not in universe under 1 year old"] <- NA
+
+```
+
+
+```{r}
+#calculo % de missing data para cada columna
+colMeans(is.na(db)) * 100
+
+# Eliminar columnas 
+db$year <- NULL      # columna que no aporta ninguna informacion
+#db <- db[, colMeans(is.na(db)) < 0.9]  # Eliminar todas %missing data > 90%
+db$`enroll in edu inst last wk` <- NULL
+db$`member of a labor union` <- NULL
+db$`reason for unemployment` <- NULL
+db$`region of previous residence` <- NULL
+db$`state of previous residence` <- NULL
+db$`migration prev res in sunbelt` <- NULL
+db$`fill inc questionnaire for veteran's admin` <- NULL
+```
+
+```{r}
+# Imputacion: me da ERRORES, chatGPT no se aclara
+
+# sudo apt-get install libcurl4-openssl-dev
+# sudo apt-get install libxml2-dev
+
+# Convert all columns to factors for imputation
+#data[] <- lapply(db, factor)
+
+library(VIM)
+
+# Identify missing values
+missing_values <- db == "?" | db == "Not in universe" | db == "Not in universe or children" | db == "Not in universe under 1 year old"
+
+# Impute missing values using kNN
+db_imputed <- kNN(db, k = 5, numFun = "WeightedMean", use.all.vars = TRUE)
+
+# Check if there are still missing values
+any(is.na(db_imputed))
+
+```
+
+
+```{r}
+
+
+
+
 
 ```
 
