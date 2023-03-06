@@ -65,24 +65,22 @@ db$`fill inc questionnaire for veteran's admin` <- NULL
 ```
 
 ```{r}
-# Imputacion: me da ERRORES, chatGPT no se aclara
+# Imputacion: 
 
 # sudo apt-get install libcurl4-openssl-dev
 # sudo apt-get install libxml2-dev
 
 # Convert all columns to factors for imputation
-#data[] <- lapply(db, factor)
+db[] <- lapply(db, factor)
 
-library(VIM)
-
-# Identify missing values
-missing_values <- db == "?" | db == "Not in universe" | db == "Not in universe or children" | db == "Not in universe under 1 year old"
+library(DMwR2)
 
 # Impute missing values using kNN
-db_imputed <- kNN(db, k = 5, numFun = "WeightedMean", use.all.vars = TRUE)
+db_imputed <- knnImputation(db, k = 5);
+
 
 # Check if there are still missing values
-any(is.na(db_imputed))
+#any(is.na(db_imputed))
 
 ```
 
