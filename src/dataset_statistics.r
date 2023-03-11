@@ -1,4 +1,4 @@
-# Go to the folder where you have stored the MD repo before running the script
+# Go to the MD project folder before running the script
 dir <- getwd()
 db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
 mean(is.na(db)) * 100
