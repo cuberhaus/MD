@@ -62,6 +62,16 @@ db$`region of previous residence` <- NULL
 db$`state of previous residence` <- NULL
 db$`migration prev res in sunbelt` <- NULL
 db$`fill inc questionnaire for veteran's admin` <- NULL
+
+# 70% missing data:
+db$`family members under 18` <- NULL
+
+# 50% missing data:
+db$`migration code-change in msa` <- NULL
+db$`migration code-change in reg` <- NULL
+db$`migration code-move within reg` <- NULL
+db$`live in this house 1 year ago` <- NULL
+
 ```
 
 ```{r}
@@ -73,14 +83,45 @@ db$`fill inc questionnaire for veteran's admin` <- NULL
 # Convert all columns to factors for imputation
 db[] <- lapply(db, factor)
 
-library(DMwR2)
+
+# categorical: mode
+library(imputeTS)
+db$`hispanic origin` <- impute(db$`hispanic origin`, method = "mode")
+#db$`hispanic origin` <- na_mode(db$`hispanic origin`, option = "mode")
+
+# categorical: hot-deck, feature is related to other features in your dataset
+
+imputedFa <- impute(db$`country of birth father`, method = "hotdeck")
+imputedMo <- impute(db$`country of birth mother`, method = "hotdeck")
+imputedSe <- impute(db$`country of birth self`, method = "hotdeck")
+
+db$`country of birth father` <- imputedFa
+db$`country of birth mother` <- imputedMo
+db$`country of birth self` <- imputedSe
+
+#check if no missing data:
+#any(is.na(db$country_father))
+#any(is.na(db$country_mother))
+#any(is.na(db$country_fself))
+
+# replace NA values in the age column with "Do not know"
+# class of worker: 1-> Federal government; 2-> Local government ... -1-> Do not Know
+db$`class of worker` <- ifelse(is.na(db$`class of worker`), "-1", db$`class of worker`)
+db$`major industry code` <- ifelse(is.na(db$`major industry code`), "-1", db$`major industry code`)
+db$`major occupation code` <- ifelse(is.na(db$`major occupation code`), "-1", db$`major occupation code`)
+
+
+
+#library(DMwR2)
 
 # Impute missing values using kNN
-db_imputed <- knnImputation(db, k = 5);
+#db_imputed <- knnImputation(db, k = 5);
 
+
+write.csv(db, file = "new_imputed_data.csv", row.names = TRUE)
 
 # Check if there are still missing values
-#any(is.na(db_imputed))
+any(is.na(db))
 
 ```
 

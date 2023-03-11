@@ -70,6 +70,14 @@ Queremos datos de calidad.
         * Input for PCA -> Euclidian distance for individus(rows), features (colums) get correlation and covariance. Need to be NORMALIZED (Xi - X)/sigma/  (X is average). for similar feature "CENTER" Xi - X.  
         
 
+-------------------------------------------------------------
+
+CLUSTERING: Method, distances, aggregation
+
+method: partition -> k-means, herarchical -> ASC or DESCEND
+
+
+
 
 
 
