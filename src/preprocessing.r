@@ -12,35 +12,35 @@ colnames(categorical_data)
 sapply(categorical_data, class)
 
 #NO EJECUTAR, orden de las columnas
-WorkerClass <- factor("class of worker")2
-Education <- factor("education")5
-EnrollInEdu <- factor("enroll in edu inst last wk")7
-MaritalStat <- factor("marital stat")8
-IndustryCode <- factor("major industry code")9
-OccupationCode <- factor("major occupation code")10
-Race <- factor("race")11
-HispanicOrigin <- factor("hispanic origin")12
-Sex <- factor("sex")13
-MemeberLabor <- factor("member of a labor union")14
-ReasonUnemployment <- factor("reason for unemployment")15
-TypeEmployment <- factor("full or part time employment stat")16
-TaxStat <- factor("tax filer stat")20
-ResidenceRegion <- factor("region of previous residence")21
-PreviousResidence <- factor("state of previous residence")22
-FamilyStat <- factor("detailed household and family stat")23
-DetailedHouseholdSummary <- factor("detailed household summary in household")24
-MSA <- factor("migration code-change in msa")26
-MSAREG <- factor("migration code-change in reg")27
-MCMWithinREG <- factor("migration code-move within reg")28
-LiveinHouse <- factor("live in this house 1 year ago")29
-PrevMigration <- factor("migration prev res in sunbelt")30
-FamilyMembersUnder18 <- factor("family members under 18")32
-FatherBirthCountry<- factor("country of birth father")33
-MotherBirthCountry <- factor("country of birth mother")34
-BirthCountry <- factor("country of birth self")35
-Citizenship <- factor("citizenship")36
-VeteranQuestionnaire <- factor("fill inc questionnaire for veteran's admin")38
-Income <- factor("income")42
+# WorkerClass <- factor("class of worker")2
+# Education <- factor("education")5
+# EnrollInEdu <- factor("enroll in edu inst last wk")7
+# MaritalStat <- factor("marital stat")8
+# IndustryCode <- factor("major industry code")9
+# OccupationCode <- factor("major occupation code")10
+# Race <- factor("race")11
+# HispanicOrigin <- factor("hispanic origin")12
+# Sex <- factor("sex")13
+# MemeberLabor <- factor("member of a labor union")14
+# ReasonUnemployment <- factor("reason for unemployment")15
+# TypeEmployment <- factor("full or part time employment stat")16
+# TaxStat <- factor("tax filer stat")20
+# ResidenceRegion <- factor("region of previous residence")21
+# PreviousResidence <- factor("state of previous residence")22
+# FamilyStat <- factor("detailed household and family stat")23
+# DetailedHouseholdSummary <- factor("detailed household summary in household")24
+# MSA <- factor("migration code-change in msa")26
+# MSAREG <- factor("migration code-change in reg")27
+# MCMWithinREG <- factor("migration code-move within reg")28
+# LiveinHouse <- factor("live in this house 1 year ago")29
+# PrevMigration <- factor("migration prev res in sunbelt")30
+# FamilyMembersUnder18 <- factor("family members under 18")32
+# FatherBirthCountry<- factor("country of birth father")33
+# MotherBirthCountry <- factor("country of birth mother")34
+# BirthCountry <- factor("country of birth self")35
+# Citizenship <- factor("citizenship")36
+# VeteranQuestionnaire <- factor("fill inc questionnaire for veteran's admin")38
+# Income <- factor("income")42
 
 #Array de las columnas a factor 2,5,7,8,9,10,11,12
 binaryVars <- c(13,14,15,16,20,21,22,23,24,26,27,28,29,30,32,33,34,35,36,38,42)

@@ -6,18 +6,18 @@ db <- read.csv(paste0(dir,"/data/new_imputed_data.csv"),header=T, sep=",", strip
 sum(is.na(db))
 
 objects()
-attributes(dd)
+attributes(df)
 
-attach(dd)
-names(dd)
+attach(df)
+names(df)
 
 #is R understanding well my factor variables?
-sapply(dd,class)
+sapply(df,class)
 
-numeriques<-which(sapply(dd,is.numeric))
+numeriques<-which(sapply(df,is.numeric))
 numeriques
 
-dcon<-dd[,numeriques]
+dcon<-df[,numeriques]
 sapply(dcon,class)
 
 # Load the dplyr package

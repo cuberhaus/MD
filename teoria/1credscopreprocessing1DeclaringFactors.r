@@ -151,14 +151,14 @@ write.table(dd, file = "credscoCategoriques.csv", sep = ";", na = "NA", dec = ".
 
 #Multivalued
 
-components<- c(indexes of columns containing modalities of the variable)
-freqs<-NULL
-for (k in components){
-     newvalues<-c(paste(names(dd)[k],"Si",sep"")), "No)
-     dd[,k]<-newvalues[match(dd[,k],c("Si","No))]
-	freqs[k]<-table(dd[,1])[1]
-}
-barplot(freqs)
+# components<- c(indexes of columns containing modalities of the variable)
+# freqs<-NULL
+# for (k in components){
+#      newvalues<-c(paste(names(dd)[k],"Si",sep"")), "No)
+#      dd[,k]<-newvalues[match(dd[,k],c("Si","No))]
+# 	freqs[k]<-table(dd[,1])[1]
+# }
+# barplot(freqs)
 
 
 class(Dictamen)
