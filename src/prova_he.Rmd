@@ -118,7 +118,7 @@ db$`major occupation code` <- ifelse(is.na(db$`major occupation code`), "-1", db
 #db_imputed <- knnImputation(db, k = 5);
 
 
-write.csv(db, file = "new_imputed_data.csv", row.names = TRUE)
+#write.csv(db, file = "new_imputed_data.csv", row.names = TRUE)
 
 # Check if there are still missing values
 any(is.na(db))
