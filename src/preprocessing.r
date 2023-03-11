@@ -61,5 +61,3 @@ for(col in binaryVars){
 
 #Para comprobar el factor
 db[,2]
-
-
