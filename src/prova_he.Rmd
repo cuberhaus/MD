@@ -6,7 +6,7 @@
 ```{r}
 # ENVIROMENT 
 
-#dir <- getwd()     # descomenta esto si lo quieres usar en tu ordenador
+dir <- getwd()     # descomenta esto si lo quieres usar en tu ordenador
 dir <- "/home/he/Desktop/MD/" 
 col_names <- variable_names <- c("age", "class of worker", "detailed industry recode", 
                     "detailed occupation recode", "education", "wage per hour", 
@@ -26,7 +26,7 @@ col_names <- variable_names <- c("age", "class of worker", "detailed industry re
                     "veterans benefits", "weeks worked in year", "year")
 
 
-db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
+db <- read.csv(paste0(dir,"/census-income.data"),header=F, sep=",", strip.white = TRUE) # take out trailing whitespaces
 
 # Assign the column names to the data frame
 colnames(db) <- col_names
@@ -80,8 +80,15 @@ db$`live in this house 1 year ago` <- NULL
 # sudo apt-get install libcurl4-openssl-dev
 # sudo apt-get install libxml2-dev
 
-# Convert all columns to factors for imputation
-db[] <- lapply(db, factor)
+# Convert categorical columns to factors for imputation
+binaryVars <- c("class of worker","education","marital stat","major industry code","major occupation code","race","hispanic origin","sex","full or part time employment stat","tax filer stat","detailed household and family stat","detailed household summary in household","country of birth father","country of birth mother","country of birth self","citizenship")
+
+#Recorre las columnas señaladas en binaryVars y le hace factor
+for(col in binaryVars){
+  newCol <- as.character(db[,col])
+  newCol <- factor(newCol)
+  db[,col] <- newCol
+}
 
 
 # categorical: mode
