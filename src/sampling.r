@@ -12,7 +12,7 @@ db <- read.csv(paste0(dir,"/data/raw_data/census-income.data"),header=F, sep=","
 library(dplyr)
 
 # Apply random sampling using the slice_sample function from dplyr package
-newdb <- db %>% slice_sample(n = min(nrow(db), 10000))
+newdb <- db %>% slice_sample(n = 20000)
 
 # Name of each feature
 col_names <- variable_names <- c("age", "class of worker", "detailed industry recode", "detailed occupation recode", 
