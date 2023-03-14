@@ -1,3 +1,4 @@
+library(dplyr)
 # Go to the MD project folder before running the script
 dir <- getwd()
 
@@ -38,8 +39,17 @@ categoricalVars <- c("education", "marital.stat", "race", "hispanic.origin",
 db[categoricalVars] <- lapply(db[categoricalVars], factor)
 levels(db[, "income"]) <- c("Less than 50000", "Greater than 50000")
 
+# Get the columns names that they still have missing data
+missingColNames <- db[, sapply(db, function(x) sum(is.na(x)))/nrow(db)*100 > 0] %>% colnames
+
+# Get the columns that have missing data and are categorical variables
+categoricalMissing <- db[, colnames(db) %in% missingColNames] %>% select(where(is.factor)) %>% names
+
+# Get the columns that have missing data and are numerical variables
+numericalMissing <- db[, colnames(db) %in% missingColNames] %>% select(where(is.numeric)) %>% names
 
 # Imputation Numerical Variables
+# We don't have any ....
 
 # Imputation Categorical Variables
 
