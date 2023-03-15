@@ -31,5 +31,5 @@ col_names <- variable_names <- c("age", "class of worker", "detailed industry re
 # Assign the column names to the new data frame
 colnames(newdb) <- col_names
 
-# Save the 10.000 rows data 
-write.table(newdb,"10000data.csv", row.names = TRUE, sep = ",")
+# Save the 20.000 rows data 
+write.table(newdb,"20000data.csv", row.names = TRUE, sep = ",")
