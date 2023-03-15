@@ -83,6 +83,55 @@ numericalMissing <- db[, colnames(db) %in% missingColNames] %>% select(where(is.
 # We don't have any ....
 
 # Imputation Categorical Variables
+# Add level "Not considered"
+db$detailed.industry.recode <- factor(db$detailed.industry.recode,  levels=c(levels(db$detailed.industry.recode), 'Not considered'))
+# Replace NA
+db$detailed.industry.recode[is.na(db$detailed.industry.recode)] <- "Not considered"
 
 
+# Add level "Not considered"
+db$class.of.worker <- factor(db$class.of.worker,  levels=c(levels(db$class.of.worker), 'Not considered'))
+# Replace NA
+db$class.of.worker[is.na(db$class.of.worker)] <- "Not considered"
+
+# Add level "Not considered"
+db$detailed.occupation.recode <- factor(db$detailed.occupation.recode,  levels=c(levels(db$detailed.occupation.recode), 'Not considered'))
+# Replace NA
+db$detailed.occupation.recode[is.na(db$detailed.occupation.recode)] <- "Not considered"
+
+# Add level "Not considered"
+db$major.industry.code <- factor(db$major.industry.code,  levels=c(levels(db$major.industry.code), 'Not considered'))
+# Replace NA
+db$major.industry.code[is.na(db$major.industry.code)] <- "Not considered"
+
+# Add level "Not considered"
+db$major.occupation.code <- factor(db$major.occupation.code,  levels=c(levels(db$major.occupation.code), 'Not considered'))
+# Replace NA
+db$major.occupation.code[is.na(db$major.occupation.code)] <- "Not considered"
+
+
+# Add level "UnknownFatherCountry"
+db$country.of.birth.father <- factor(db$country.of.birth.father,  levels=c(levels(db$country.of.birth.father), 'UnknownFatherCountry'))
+# Replace NA
+db$country.of.birth.father[is.na(db$country.of.birth.father)] <- "UnknownFatherCountry"
+
+
+# Add level "UnknownMotherCountry"
+db$country.of.birth.mother <- factor(db$country.of.birth.mother,  levels=c(levels(db$country.of.birth.mother), 'UnknownMotherCountry'))
+# Replace NA
+db$country.of.birth.mother[is.na(db$country.of.birth.mother)] <- "UnknownMotherCountry"
+
+
+# Add level "UnknownSelfCountry"
+db$country.of.birth.self <- factor(db$country.of.birth.self,  levels=c(levels(db$country.of.birth.self), 'UnknownSelfCountry'))
+# Replace NA
+db$country.of.birth.self[is.na(db$country.of.birth.self )] <- "UnknownSelfCountry"
+
+# Add level "UnknownVeteranBenefits"
+db$veterans.benefits <- factor(db$veterans.benefits,  levels=c(levels(db$veterans.benefits), 'UnknownVeteranBenefits'))
+# Replace NA
+db$veterans.benefits[is.na(db$veterans.benefits)] <- "UnknownVeteranBenefits"
+
+# Save the preprocessed data  
+write.table(db,"Preprocessed_data.csv", row.names = TRUE, sep = ",")
 
