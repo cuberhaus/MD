@@ -132,6 +132,11 @@ db$veterans.benefits <- factor(db$veterans.benefits,  levels=c(levels(db$veteran
 # Replace NA
 db$veterans.benefits[is.na(db$veterans.benefits)] <- "UnknownVeteranBenefits"
 
+# Add level "UnknownHispanicOrigin"
+db$hispanic.origin <- factor(db$hispanic.origin,  levels=c(levels(db$hispanic.origin), 'UnknownHispanicOrigin'))
+# Replace NA
+db$hispanic.origin[is.na(db$hispanic.origin)] <- "UnknownHispanicOrigin"
+
 # Save the preprocessed data with csv format  
 write.table(db,"Preprocessed_data.csv", row.names = TRUE, sep = ",")
 
