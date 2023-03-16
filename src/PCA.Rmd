@@ -1,0 +1,103 @@
+---
+title: "PCA"
+output: pdf_document
+date: "2023-03-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read Data
+```{r}
+# Go to the MD project folder before running the script
+dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current directory
+# Import preprocessed data
+# db <- read.csv(paste0(dir,"/data/Preprocessed_data.csv"),header=T, sep=",", strip.white = TRUE) # take out trailing whitespaces
+
+# read dataframe back in from RDS file
+db <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
+```
+
+## We check for missing data 
+```{r}
+# Check if there are any missing values, there should not be because they have been imputed, or removed
+sum(is.na(db))
+# get number of missing values by column
+na_counts <- colSums(is.na(db))
+```
+
+```{r}
+attach(db)
+names(db)
+#is R understanding well my factor variables?
+sapply(db,class)
+
+```
+
+## We separate numerical and categorical features
+```{r}
+numeriques<-which(sapply(db,is.numeric))
+numeriques
+
+categorics<-which(sapply(db,is.factor))
+categorics
+
+# Select only the categorical variables
+numerical_data <- select_if(db, is.numeric)
+categorical_data <- select_if(db, is.character)
+
+```
+
+## Perform PCA
+
+```{r, echo=FALSE}
+
+# Load the dplyr package
+#install.packages("dplyr")
+library(dplyr)
+
+# Perform PCA on the data
+pca <- prcomp(numerical_data, scale. = TRUE)
+
+# View the results
+summary(pca)
+
+#install.packages("corrplot")
+
+```
+
+## Correlation matrix
+```{r}
+# Load the corrplot package
+library(corrplot)
+# View the correlation matrix only of the numerical values
+cor_mat<- cor(numerical_data)
+# Set the upper triangle elements to NA
+cor_mat[upper.tri(cor_mat)] <- NA
+
+```
+
+## Plot the correlation matrix
+```{r}
+corrplot(cor_mat, method="circle")
+```
+
+```{r}
+pca$sdev
+variance<- pca$sdev^2 
+variance
+totalVariance<- sum(inerProj)
+totalIner
+percentageVar<- 100*variance/totalVariance
+percentageVar
+barplot(percentageVar)
+```
+
+```{r}
+
+# Create a screeplot
+plot(pca, type = "l", main = "Screeplot of PCA")
+
+```
+
