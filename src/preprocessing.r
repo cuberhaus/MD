@@ -132,6 +132,9 @@ db$veterans.benefits <- factor(db$veterans.benefits,  levels=c(levels(db$veteran
 # Replace NA
 db$veterans.benefits[is.na(db$veterans.benefits)] <- "UnknownVeteranBenefits"
 
-# Save the preprocessed data  
+# Save the preprocessed data with csv format  
 write.table(db,"Preprocessed_data.csv", row.names = TRUE, sep = ",")
+
+# Save the preprocessed data with RDS format
+saveRDS(db, file= "Preprocessed_data_rds.rds")
 
