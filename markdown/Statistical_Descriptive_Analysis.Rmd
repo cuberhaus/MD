@@ -4,6 +4,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+#install.packages("knitr", dependencies = TRUE)
 knitr::opts_knit$set(root.dir = dirname(dirname(rstudioapi::getActiveDocumentContext()$path)))
 ```
 
@@ -11,28 +12,31 @@ knitr::opts_knit$set(root.dir = dirname(dirname(rstudioapi::getActiveDocumentCon
 # Get the data
 dbRaw <- readRDS("./data/BeforeMissing.rds")
 dbPreprocessed <- readRDS("./data/Preprocessed_data_rds.rds")
-
 ```
 # Get dimensions of the dataset
 ```{r, echo=FALSE}
 dim(dbRaw)
 n<-dim(dbPreprocessed)[1]
 K<-dim(dbPreprocessed)[2]
-
 n
 K
+
+# Create table of the names of out features
+print(kable(names(db), align = "c", booktabs = TRUE) %>%
+       kable_styling(latex_options = "HOLD_position")
+      
+# Create a table with the variables name and type
+sapply(dbPreprocessed, class)
 ```
 
 \newpage
-\section{Univariate analysis}
 ```{r echo = FALSE,  warning=FALSE, results = 'asis', fig.align='center'}
+#sudo apt-get install libcurl4-openssl-dev
 #install.packages("kableExtra", dependencies = TRUE)
-
 library(knitr)
 library(kableExtra)
 knitr::opts_chunk$set(fig.pos = 'H')                   
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
-
 descriptive<-function(X, nom, tabNum){
   if (!(is.numeric(X))){
     frecs<-table(as.factor(X), useNA="ifany")
@@ -55,7 +59,6 @@ descriptive<-function(X, nom, tabNum){
    
     FaP <- data.frame(frecs, proportions)
     names(FaP) <- c(nom, "Frequency", "a", "Proportion")
-
     foot <- " frequency and proportion table (sorted)."
     
     print(kable(subset(FaP, select= -a), align = "c") %>%
@@ -80,28 +83,20 @@ descriptive<-function(X, nom, tabNum){
         
        cat("\\")
        cat(" \ ")
-
        print(kable(tab, align = "c", booktabs = TRUE) %>%
        kable_styling(latex_options = "HOLD_position"))
        
        cat("\\begin{center}")
        cat(paste("\\textbf{ Table 6.", as.character(tabNum), ". }", nom, " extended Summary Statistics.", sep = ""))
        cat("\\end{center}")
-
       }
 }
-
 listOfColors<-rainbow(40)
-
 actives<-c(1:28)
 changed<-c("class.of.worker", "detailed.industry.recode", "detailed.occupation.recode", "major.industry.code", "major.occupation.code", "hispanic.origin", "country.of.birth.father", "country.of.birth.mother", "country.of.birth.self", "veterans.benefits")
-
 par(ask=TRUE)
-
 tabNum <- 2
-
 for(k in actives){
-
   name <- names(dbPreprocessed)[k]
   
   if (k != 1) cat("\\newpage")
@@ -130,8 +125,28 @@ for(k in actives){
     descriptive(dbPreprocessed[,k], name, tabNum)
     cat("\n\n\n\n")
   }
-
 }
 par(ask=FALSE)
+```
 
+\newpage
+\section{Bivariate analysis}
+```{r echo = FALSE,  warning=FALSE, results = 'asis', fig.align='center'}
+library(knitr)
+library(kableExtra)
+knitr::opts_chunk$set(fig.pos = 'H')                    
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+for (k in actives)
+{
+  name <- names(dbPreprocessed)[k]
+  
+                              # Create plot of variable vs nMortal
+  if (name !=) {    plot(ddAfter[,k], dbPreprocessed$, pch=16, col=alpha('blue', 0.6),
+                              main= paste(name, " "),
+                              xlab=name, ylab='')
+  
+  if (is.numeric(dbPreprocessed[,k])) cat(paste("Correlation between ", name, " and  ", cor(dbPreprocessed[,k], dbPreprocessed$)))
+  }
+}
 ```
