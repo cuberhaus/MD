@@ -70,6 +70,11 @@ categoricalVars <- c("class.of.worker", "detailed.industry.recode", "detailed.oc
 db[categoricalVars] <- lapply(db[categoricalVars], factor)
 levels(db[, "income"]) <- c("Less than 50000", "Greater than 50000")
 
+# Save data as RDS before missing treatment
+saveRDS(db, file= "BeforeMissing.rds")
+
+# Missing Treatment
+
 # Get the columns names that they still have missing data
 missingColNames <- db[, sapply(db, function(x) sum(is.na(x)))/nrow(db)*100 > 0] %>% colnames
 
