@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Read Data
+
 ```{r}
 # Go to the MD project folder before running the script
 dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current directory
@@ -19,7 +20,8 @@ dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current d
 db <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
 ```
 
-## We check for missing data 
+## We check for missing data
+
 ```{r}
 # Check if there are any missing values, there should not be because they have been imputed, or removed
 sum(is.na(db))
@@ -36,6 +38,7 @@ sapply(db,class)
 ```
 
 ## We separate numerical and categorical features
+
 ```{r}
 numeriques<-which(sapply(db,is.numeric))
 numeriques
@@ -68,6 +71,7 @@ summary(pca)
 ```
 
 ## Correlation matrix
+
 ```{r}
 # Load the corrplot package
 library(corrplot)
@@ -79,20 +83,23 @@ cor_mat[upper.tri(cor_mat)] <- NA
 ```
 
 ## Plot the correlation matrix
+
 ```{r}
 corrplot(cor_mat, method="circle")
 ```
 
 ```{r}
-pca$sdev
+# pca$sdev
 variance<- pca$sdev^2 
-variance
-totalVariance<- sum(inerProj)
-totalIner
+# variance
+totalVariance<- sum(variance)
+# totalVariance
 percentageVar<- 100*variance/totalVariance
-percentageVar
+# percentageVar
 barplot(percentageVar)
 ```
+
+
 
 ```{r}
 
@@ -100,4 +107,21 @@ barplot(percentageVar)
 plot(pca, type = "l", main = "Screeplot of PCA")
 
 ```
+## We use cumulative proportion of variance to easily spot how many components of pca to choose
+```{r}
+cum_prop_var <- cumsum(percentageVar)
+plot(cum_prop_var, type="b", xlab="Number of components", ylab="Cumulative proportion of variance", main="Scree plot")
+```
+In this case we would choose 5
+```{r}
+# SELECTION OF THE SINGIFICNT DIMENSIONS (keep 80% of total inertia)
+
+nd = 5
+pca$rotation # Loadings of the pca (how much of that variable is represented by the principal component)
+
+```
+At a quick glance it would seem that the most important variables in terms of the variance be num.persons.worked.for.employer and weeks.worked.in.year since they have the higher absolute value in PC1 which amounts for the most amount of variance.
+
+
+
 
