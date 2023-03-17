@@ -122,6 +122,91 @@ pca$rotation # Loadings of the pca (how much of that variable is represented by 
 ```
 At a quick glance it would seem that the most important variables in terms of the variance be num.persons.worked.for.employer and weeks.worked.in.year since they have the higher absolute value in PC1 which amounts for the most amount of variance.
 
+## We project our data on only 5 dimensions of pca
+```{r}
+# STORAGE OF THE EIGENVALUES, EIGENVECTORS AND PROJECTIONS IN THE nd DIMENSIONS
+# View(pca$x)
+dim(pca$x)
+dim(numerical_data)
+numerical_data[2000,]
+pca$x[2000,]
+
+Psi = pca$x[,1:nd]
+dim(Psi)
+Psi[2000,]
 
 
+```
+
+## We store some data to plot later
+```{r}
+iden = row.names(numerical_data)
+etiq = names(numerical_data)
+ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
+
+```
+
+
+```{r}
+eje1<-1
+#eje2<-3
+eje2<-2
+
+plot(Psi[,eje1],Psi[,eje2])
+text(Psi[,eje1],Psi[,eje2],labels=iden, cex=0.5)
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+
+
+```
+
+For example let's take a look at 3402 to make sure it makes sense:
+as we can see PC1 corresponds roughly to 4 and PC2 is in the middle of -40 and -30
+
+```{r}
+Psi[3402,]
+
+```
+```{r}
+
+#Projection of variables
+
+Phi = cor(numerical_data,Psi)
+View(Phi)
+
+#select your axis
+
+X<-Phi[,eje1]
+Y<-Phi[,eje2]
+```
+
+View 
+```{r}
+
+plot(Psi[,eje1],Psi[,eje2],type="n", ylim = c(-1, 1), xlim = c(0, 1))
+axis(side=1, pos= 0, labels = F)
+axis(side=3, pos= 0, labels = F)
+axis(side=2, pos= 0, labels = F)
+axis(side=4, pos= 0, labels = F)
+arrows(ze, ze, X, Y, length = 0.07,col="blue")
+text(X,Y,labels=etiq,col="darkblue", cex=0.7)
+
+```
+```{r}
+# PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
+# PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
+# (we need a numeric Dictamen to color)
+
+
+varcat=factor(db[,5])
+plot(Psi[,1],Psi[,2],col=varcat)
+axis(side=1, pos= 0, labels = F, col="darkgray")
+axis(side=3, pos= 0, labels = F, col="darkgray")
+axis(side=2, pos= 0, labels = F, col="darkgray")
+axis(side=4, pos= 0, labels = F, col="darkgray")
+legend("bottomleft",levels(factor(varcat)),pch=1,col=c(1,2), cex=0.6)
+
+```
 
