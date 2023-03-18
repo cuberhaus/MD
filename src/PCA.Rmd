@@ -40,6 +40,7 @@ sapply(db,class)
 ## We separate numerical and categorical features
 
 ```{r}
+library(dplyr)
 numeriques<-which(sapply(db,is.numeric))
 numeriques
 
@@ -48,7 +49,7 @@ categorics
 
 # Select only the categorical variables
 numerical_data <- select_if(db, is.numeric)
-categorical_data <- select_if(db, is.character)
+categorical_data <- select_if(db, is.factor)
 
 ```
 
@@ -99,20 +100,22 @@ percentageVar<- 100*variance/totalVariance
 barplot(percentageVar)
 ```
 
-
-
 ```{r}
 
 # Create a screeplot
 plot(pca, type = "l", main = "Screeplot of PCA")
 
 ```
+
 ## We use cumulative proportion of variance to easily spot how many components of pca to choose
+
 ```{r}
 cum_prop_var <- cumsum(percentageVar)
 plot(cum_prop_var, type="b", xlab="Number of components", ylab="Cumulative proportion of variance", main="Scree plot")
 ```
+
 In this case we would choose 5
+
 ```{r}
 # SELECTION OF THE SINGIFICNT DIMENSIONS (keep 80% of total inertia)
 
@@ -120,9 +123,11 @@ nd = 5
 pca$rotation # Loadings of the pca (how much of that variable is represented by the principal component)
 
 ```
+
 At a quick glance it would seem that the most important variables in terms of the variance be num.persons.worked.for.employer and weeks.worked.in.year since they have the higher absolute value in PC1 which amounts for the most amount of variance.
 
 ## We project our data on only 5 dimensions of pca
+
 ```{r}
 # STORAGE OF THE EIGENVALUES, EIGENVECTORS AND PROJECTIONS IN THE nd DIMENSIONS
 # View(pca$x)
@@ -139,13 +144,13 @@ Psi[2000,]
 ```
 
 ## We store some data to plot later
+
 ```{r}
 iden = row.names(numerical_data)
 etiq = names(numerical_data)
 ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
 
 ```
-
 
 ```{r}
 eje1<-1
@@ -162,19 +167,17 @@ axis(side=4, pos= 0, labels = F, col="cyan")
 
 ```
 
-For example let's take a look at 3402 to make sure it makes sense:
-as we can see PC1 corresponds roughly to 4 and PC2 is in the middle of -40 and -30
+For example let's take a look at 3402 to make sure it makes sense: as we can see PC1 corresponds roughly to 4 and PC2 is in the middle of -40 and -30
 
 ```{r}
 Psi[3402,]
 
 ```
+
 ```{r}
-
 #Projection of variables
-
 Phi = cor(numerical_data,Psi)
-View(Phi)
+#View(Phi)
 
 #select your axis
 
@@ -182,7 +185,8 @@ X<-Phi[,eje1]
 Y<-Phi[,eje2]
 ```
 
-View 
+View
+
 ```{r}
 
 plot(Psi[,eje1],Psi[,eje2],type="n", ylim = c(-1, 1), xlim = c(0, 1))
@@ -194,6 +198,9 @@ arrows(ze, ze, X, Y, length = 0.07,col="blue")
 text(X,Y,labels=etiq,col="darkblue", cex=0.7)
 
 ```
+
+We can see something that might be interesting here, that is, there is a group of children grouped up at the same place in the following graph.
+
 ```{r}
 # PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
 # PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
@@ -209,4 +216,98 @@ axis(side=4, pos= 0, labels = F, col="darkgray")
 legend("bottomleft",levels(factor(varcat)),pch=1,col=c(1,2), cex=0.6)
 
 ```
+```{r,  fig.show='hold'}
+#categorical_data
+# varcat=factor(categorical_data[,6])
+# plot(Psi[,1],Psi[,2],col=varcat)
+# axis(side=1, pos= 0, labels = F, col="darkgray")
+# axis(side=3, pos= 0, labels = F, col="darkgray")
+# axis(side=2, pos= 0, labels = F, col="darkgray")
+# axis(side=4, pos= 0, labels = F, col="darkgray")
+# legend("bottomleft",levels(factor(varcat)),pch=1,col=c(1,2), cex=0.6)
+# create an empty list to store the plots
+plot_list <- list()
 
+# iterate through all columns of the categorical_data dataset
+for (i in 1:ncol(categorical_data)) {
+  
+  # extract the ith column
+  varcat <- factor(categorical_data[,i])
+  
+  # create a plot
+  plot(Psi[,1],Psi[,2],col=varcat)
+  axis(side=1, pos= 0, labels = F, col="darkgray")
+  axis(side=3, pos= 0, labels = F, col="darkgray")
+  axis(side=2, pos= 0, labels = F, col="darkgray")
+  axis(side=4, pos= 0, labels = F, col="darkgray")
+  legend("bottomleft",levels(factor(varcat)),pch=1,col=c(1,2), cex=0.6)
+  
+  # add the plot to the list
+  plot_list[[i]] <- recordPlot()
+  
+  # clear the current plot
+  dev.new()
+}
+```
+
+```{r}
+# loop through each plot in the plot_list and display it
+# for (i in 1:length(plot_list)) {
+#   plot_list[[i]]
+# }
+
+plot_list[[i]]
+```
+
+
+
+```{r}
+#select your qualitative variable
+k<-5 #dictamen in credsco
+
+varcat<-factor(db[,k])
+fdic1 = tapply(Psi[,eje1],varcat,mean)
+fdic2 = tapply(Psi[,eje2],varcat,mean) 
+plot.new()
+points(fdic1,fdic2,pch=16,col="blue", labels=levels(varcat))
+text(fdic1,fdic2,labels=levels(varcat),col="black", cex=0.7)
+
+#Now we project both cdgs of levels of a selected qualitative variable without
+#representing the individual anymore
+
+
+
+
+```
+
+```{r}
+plot(Psi[,eje1],Psi[,eje2],type="n")
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+
+```
+
+```{r}
+#select your qualitative variable
+k<-1 #dictamen in credsco
+
+#varcat<-dd[,k]
+#fdic1 = tapply(Psi[,eje1],varcat,mean)
+#fdic2 = tapply(Psi[,eje2],varcat,mean) 
+plot.new()
+
+#points(fdic1,fdic2,pch=16,col="blue", labels=levels(varcat))
+text(fdic1,fdic2,labels=levels(varcat),col="blue", cex=0.7)
+
+
+#all qualitative together
+plot(Psi[,eje1],Psi[,eje2],type="n")
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+
+
+```
