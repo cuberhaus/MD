@@ -3,33 +3,43 @@ title: "PCA"
 output: pdf_document
 date: "2023-03-16"
 ---
-
+# Set the working directory
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = dirname(dirname(rstudioapi::getActiveDocumentContext()$path)))
+
+library(dplyr)
 ```
 
 ## Read Data
 
-```{r}
+#```{r, echo=FALSE}
 # Go to the MD project folder before running the script
-dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current directory
+#dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current directory
 # Import preprocessed data
 # db <- read.csv(paste0(dir,"/data/Preprocessed_data.csv"),header=T, sep=",", strip.white = TRUE) # take out trailing whitespaces
 
 # read dataframe back in from RDS file
-db <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
+#db <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
+#```
+
+# Try this to read the data
+```{r, echo=FALSE}
+# Get the data
+db <- readRDS("./data/Preprocessed_data_rds.rds")
 ```
+
 
 ## We check for missing data
 
-```{r}
+```{r, echo=FALSE}
 # Check if there are any missing values, there should not be because they have been imputed, or removed
 sum(is.na(db))
 # get number of missing values by column
 na_counts <- colSums(is.na(db))
 ```
 
-```{r}
+```{r, echo=FALSE}
 attach(db)
 names(db)
 #is R understanding well my factor variables?
@@ -39,7 +49,7 @@ sapply(db,class)
 
 ## We separate numerical and categorical features
 
-```{r}
+```{r, echo=FALSE}
 numeriques<-which(sapply(db,is.numeric))
 numeriques
 
@@ -72,7 +82,7 @@ summary(pca)
 
 ## Correlation matrix
 
-```{r}
+```{r, echo=FALSE}
 # Load the corrplot package
 library(corrplot)
 # View the correlation matrix only of the numerical values
@@ -84,7 +94,7 @@ cor_mat[upper.tri(cor_mat)] <- NA
 
 ## Plot the correlation matrix
 
-```{r}
+```{r, fig.height =16, fig.width = 12, fig.align = "center" }
 corrplot(cor_mat, method="circle")
 ```
 
@@ -101,16 +111,24 @@ barplot(percentageVar)
 
 
 
-```{r}
+```{r, fig.height =16, fig.width = 12, fig.align = "center" }
 
 # Create a screeplot
-plot(pca, type = "l", main = "Screeplot of PCA")
+barplot(percentageVar, main = "Scree plot", xlab = "Dimensions", ylab = "Percentage of explained variances", col = rainbow(length(percentageVar)))
+lines(percentageVar)
+points(percentageVar)
+text(seq_along(percentageVar), percentageVar, labels = paste0(round(percentageVar,1), "%"), pos=3)
+axis(2, at=seq(0,max(percentageVar),5), labels=paste0(seq(0,max(percentageVar),5),'%'))
 
 ```
 ## We use cumulative proportion of variance to easily spot how many components of pca to choose
 ```{r}
-cum_prop_var <- cumsum(percentageVar)
-plot(cum_prop_var, type="b", xlab="Number of components", ylab="Cumulative proportion of variance", main="Scree plot")
+SumPercentageVar <- cumsum(percentageVar)
+barplot(SumPercentageVar, main = "Cumulative Scree plot", xlab = "Number of components", ylab = "Cumulative proportion of variance", col = rainbow(length(SumPercentageVar)))
+lines(SumPercentageVar)
+points(SumPercentageVar)
+text(seq_along(SumPercentageVar), SumPercentageVar, labels = paste0(round(SumPercentageVar,1), "%"), pos=3)
+axis(2, at=seq(0,max(SumPercentageVar),5), labels=paste0(seq(0,max(SumPercentageVar),5),'%'))
 ```
 In this case we would choose 5
 ```{r}
@@ -135,6 +153,9 @@ Psi = pca$x[,1:nd]
 dim(Psi)
 Psi[2000,]
 
+# Observations on significant PCAs.
+SignificantCoord = pca$x[,1:nd]
+CorrelationSignificant = cor(numerical_data,SignificantCoord) 
 
 ```
 
@@ -146,6 +167,40 @@ ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
 
 ```
 
+# Plot of quality of variables using the square cosine
+```{r, fig.height =16, fig.width = 12, fig.align = "center"}
+SquareCos = CorrelationSignificant^2
+color_palette <- c("#FC8D62", "#FDCC8A", "#FFFFB3", "#A6D854", "#1A9850")
+corrplot(SquareCos, is.corr=FALSE, title="Quality of the variables with the PCAs",col =color_palette, bg = "#F1F1F1", tl.col = 'black', mar=c(3,0,2,0))
+```
+
+# Individuals Plot
+
+```{r, fig.height =16, fig.width = 12, fig.align = "center"}
+color_palette1 <- c("#4B5D67", "#322F3D", "#59405C", "#87556F")
+colorIteration <- 1
+
+for (i in seq(nd-1)) {
+  for (j in seq(i+1, nd)) {
+    plot(SignificantCoord[, i], SignificantCoord[, j],
+         col = color_palette1[(colorIteration %% length(color_palette1)) + 1],
+         main = "Individuals plot",
+         xlab = paste0("PCA", i, " (", percentageVar[i], ' %)'),
+         ylab = paste0("PCA", j, " (", percentageVar[j], ' %)'),
+         pch = 19,
+         cex = 2.5, asp = 0.5)
+    abline(h = 0, v = 0, lty = "dashed")
+    
+    
+    colorIteration <- colorIteration + 1
+  }
+}
+```
+
+# Correlation Circle
+```{r, fig.height =16, fig.width = 12, fig.align = "center"}
+
+```
 
 ```{r}
 eje1<-1
@@ -185,13 +240,22 @@ Y<-Phi[,eje2]
 View 
 ```{r}
 
-plot(Psi[,eje1],Psi[,eje2],type="n", ylim = c(-1, 1), xlim = c(0, 1))
-axis(side=1, pos= 0, labels = F)
-axis(side=3, pos= 0, labels = F)
-axis(side=2, pos= 0, labels = F)
-axis(side=4, pos= 0, labels = F)
-arrows(ze, ze, X, Y, length = 0.07,col="blue")
-text(X,Y,labels=etiq,col="darkblue", cex=0.7)
+for (i in seq(nd-1)) {  
+  for (j in seq(i+1, nd)) {
+  
+    X<-Phi[,i]
+    Y<-Phi[,j]
+    plot(Psi[,i],Psi[,j],type="n", ylim = c(-1, 1), xlim = c(0, 1), xlab = paste("Dim", i), ylab = paste("Dim", j), main = paste("Projection of numeric variables in X: ", i, ", Y: ", j, sep = "") )
+    axis(side=1, pos= 0, labels = F)
+    axis(side=3, pos= 0, labels = F)
+    axis(side=2, pos= 0, labels = F)
+    axis(side=4, pos= 0, labels = F)
+    arrows(ze, ze, X, Y, length = 0.07,col="blue")
+    text(X,Y,labels=etiq,col="darkblue", cex=0.7)
+
+
+  }
+}
 
 ```
 ```{r}

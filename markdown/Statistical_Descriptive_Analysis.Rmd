@@ -13,20 +13,17 @@ knitr::opts_knit$set(root.dir = dirname(dirname(rstudioapi::getActiveDocumentCon
 dbRaw <- readRDS("./data/BeforeMissing.rds")
 dbPreprocessed <- readRDS("./data/Preprocessed_data_rds.rds")
 ```
-# Get dimensions of the dataset
 ```{r, echo=FALSE}
 dim(dbRaw)
 n<-dim(dbPreprocessed)[1]
 K<-dim(dbPreprocessed)[2]
-n
-K
 
 # Create table of the names of out features
-print(kable(names(db), align = "c", booktabs = TRUE) %>%
-       kable_styling(latex_options = "HOLD_position")
+#print(kable(names(db), align = "c", booktabs = TRUE) %>%
+#       kable_styling(latex_options = "HOLD_position")
       
 # Create a table with the variables name and type
-sapply(dbPreprocessed, class)
+#sapply(dbPreprocessed, class)
 ```
 
 \newpage
@@ -43,8 +40,12 @@ descriptive<-function(X, nom, tabNum){
     frecs <- sort(frecs, decreasing=TRUE)
     proportions<-frecs/n
     
+    nopie <- c("detailed.industry.recode", "detailed.occupation.recode",  
+               "detailed.household.and.family", "country.of.birth.father", 
+               "country.of.birth.mother", "country.of.birth.self")
+    
     par(mfrow=c(1,2)) # Two plots in a row
-    pie(frecs, cex=0.6, main=paste("Pie of", nom))
+    if (!(nom %in% nopie)) pie(frecs, cex=0.6, main=paste("Pie of", nom))
     barplot(frecs, las=3, cex.names=0.7, main=paste("Barplot of", nom), col=listOfColors)
     
     cat("\\")
@@ -59,7 +60,7 @@ descriptive<-function(X, nom, tabNum){
    
     FaP <- data.frame(frecs, proportions)
     names(FaP) <- c(nom, "Frequency", "a", "Proportion")
-    foot <- " frequency and proportion table (sorted)."
+    foot <- " frequency and proportion table."
     
     print(kable(subset(FaP, select= -a), align = "c") %>%
     kable_styling(latex_options = "HOLD_position"))
@@ -101,7 +102,7 @@ for(k in actives){
   
   if (k != 1) cat("\\newpage")
   
-  if (k < 27)
+  if (k < 29)
   {
     
     tabNum <- tabNum + 1
@@ -128,25 +129,29 @@ for(k in actives){
 }
 par(ask=FALSE)
 ```
-
 \newpage
 \section{Bivariate analysis}
 ```{r echo = FALSE,  warning=FALSE, results = 'asis', fig.align='center'}
 library(knitr)
+library(scales)
 library(kableExtra)
+
 knitr::opts_chunk$set(fig.pos = 'H')                    
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
-for (k in actives)
-{
-  name <- names(dbPreprocessed)[k]
-  
-                              # Create plot of variable vs nMortal
-  if (name !=) {    plot(ddAfter[,k], dbPreprocessed$, pch=16, col=alpha('blue', 0.6),
-                              main= paste(name, " "),
-                              xlab=name, ylab='')
-  
-  if (is.numeric(dbPreprocessed[,k])) cat(paste("Correlation between ", name, " and  ", cor(dbPreprocessed[,k], dbPreprocessed$)))
+for (i in actives) {
+  name <- names(dbPreprocessed)[i]
+  if (i != 1) cat("\\newpage")
+  j <- i+1
+  while (j <= length(actives)) {
+    next_name <- names(dbPreprocessed)[j]
+    if (i+1 != j) cat("\\newpage")
+    plot(dbPreprocessed[,i], dbPreprocessed[,next_name], pch=16, 
+         col=alpha('blue', 0.6),main= paste(name, "vs", 
+         next_name),xlab=name, ylab=next_name)
+    
+    if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", next_name, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
+    j <- j+1
   }
 }
 ```
