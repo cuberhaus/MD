@@ -69,6 +69,7 @@ categoricalVars <- c("class.of.worker", "detailed.industry.recode", "detailed.oc
 # Convert all the categorical variables to factors
 db[categoricalVars] <- lapply(db[categoricalVars], factor)
 levels(db[, "income"]) <- c("Less than 50000", "Greater than 50000")
+levels(db[, "veterans.benefits"]) <- c("NO", "Yes")
 
 # Save data as RDS before missing treatment
 saveRDS(db, file= "BeforeMissing.rds")
