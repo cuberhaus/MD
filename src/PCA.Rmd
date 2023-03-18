@@ -251,7 +251,7 @@ for (i in seq(nd-1)) {
   
     X<-Phi[,i]
     Y<-Phi[,j]
-    plot(Psi[,i],Psi[,j],type="n", ylim = c(-1, 1), xlim = c(0, 1), xlab = paste("Dim", i), ylab = paste("Dim", j), main = paste("Projection of numeric variables in X: ", i, ", Y: ", j, sep = "") )
+    plot(Psi[,i],Psi[,j],type="n", ylim = c(-1, 1), xlim = c(-1, 1), xlab = paste("Dim", i), ylab = paste("Dim", j), main = paste("Projection of numeric variables in X: ", i, ", Y: ", j, sep = "") )
     axis(side=1, pos= 0, labels = F)
     axis(side=3, pos= 0, labels = F)
     axis(side=2, pos= 0, labels = F)
