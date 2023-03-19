@@ -1,9 +1,13 @@
 ---
 title: "PCA"
-output: pdf_document
+output:
+  word_document: default
+  pdf_document: default
 date: "2023-03-16"
 ---
+
 # Set the working directory
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = dirname(dirname(rstudioapi::getActiveDocumentContext()$path)))
@@ -13,22 +17,18 @@ library(dplyr)
 
 ## Read Data
 
-#```{r, echo=FALSE}
-# Go to the MD project folder before running the script
-#dir <- "C:/Users/polcg/repos/MD" # for some reason the it can't access current directory
-# Import preprocessed data
-# db <- read.csv(paste0(dir,"/data/Preprocessed_data.csv"),header=T, sep=",", strip.white = TRUE) # take out trailing whitespaces
+#\`\`\`{r, echo=FALSE} \# Go to the MD project folder before running the script #dir \<- "C:/Users/polcg/repos/MD" \# for some reason the it can't access current directory \# Import preprocessed data \# db \<- read.csv(paste0(dir,"/data/Preprocessed_data.csv"),header=T, sep=",", strip.white = TRUE) \# take out trailing whitespaces
 
 # read dataframe back in from RDS file
-#db <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
-#```
+
+#db \<- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds")) #\`\`\`
 
 # Try this to read the data
+
 ```{r, echo=FALSE}
 # Get the data
 db <- readRDS("./data/Preprocessed_data_rds.rds")
 ```
-
 
 ## We check for missing data
 
@@ -107,30 +107,15 @@ totalVariance<- sum(variance)
 # totalVariance
 percentageVar<- 100*variance/totalVariance
 # percentageVar
-barplot(percentageVar)
+barplot(percentageVar, main="Scree plot", ylab="Proportion of variance", xlab = "Component")
 ```
 
-
-```{r, fig.height =16, fig.width = 12, fig.align = "center" }
-
-# Create a screeplot
-barplot(percentageVar, main = "Scree plot", xlab = "Dimensions", ylab = "Percentage of explained variances", col = rainbow(length(percentageVar)))
-lines(percentageVar)
-points(percentageVar)
-text(seq_along(percentageVar), percentageVar, labels = paste0(round(percentageVar,1), "%"), pos=3)
-axis(2, at=seq(0,max(percentageVar),5), labels=paste0(seq(0,max(percentageVar),5),'%'))
-
-```
 
 ## We use cumulative proportion of variance to easily spot how many components of pca to choose
 
 ```{r}
-SumPercentageVar <- cumsum(percentageVar)
-barplot(SumPercentageVar, main = "Cumulative Scree plot", xlab = "Number of components", ylab = "Cumulative proportion of variance", col = rainbow(length(SumPercentageVar)))
-lines(SumPercentageVar)
-points(SumPercentageVar)
-text(seq_along(SumPercentageVar), SumPercentageVar, labels = paste0(round(SumPercentageVar,1), "%"), pos=3)
-axis(2, at=seq(0,max(SumPercentageVar),5), labels=paste0(seq(0,max(SumPercentageVar),5),'%'))
+cum_prop_var <- cumsum(percentageVar)
+plot(cum_prop_var, type="b", xlab="Number of components", ylab="Cumulative proportion of variance", main="Cumulative scree plot")
 ```
 
 In this case we would choose 5
@@ -175,6 +160,7 @@ ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
 ```
 
 # Plot of quality of variables using the square cosine
+
 ```{r, fig.height =16, fig.width = 12, fig.align = "center"}
 SquareCos = CorrelationSignificant^2
 color_palette <- c("#FC8D62", "#FDCC8A", "#FFFFB3", "#A6D854", "#1A9850")
@@ -205,6 +191,7 @@ for (i in seq(nd-1)) {
 ```
 
 # Correlation Circle
+
 ```{r, fig.height =16, fig.width = 12, fig.align = "center"}
 
 ```
@@ -303,6 +290,7 @@ axis(side=4, pos= 0, labels = F, col="cyan")
 
 
 ```
+
 ```{r}
 #all qualitative together
 plot(Psi[,eje1],Psi[,eje2],type="n")
@@ -464,7 +452,9 @@ colors<-c("red", "blue", "darkgreen", "orange", "violet", "magenta", "pink")
 
 
 ```
+
 This shows how much the numerical values vary from the mean
+
 ```{r}
 # PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
 # PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
@@ -486,5 +476,3 @@ fdic2 = tapply(Psi[,2],varcat,mean)
 text(fdic1,fdic2,labels=levels(factor(varcat)),col="cyan", cex=0.75)
 
 ```
-
-
