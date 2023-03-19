@@ -282,36 +282,6 @@ for (i in 1:ncol(categorical_data)) {
 }
 ```
 
-
-
-```{r}
-#select your qualitative variable
-k<-5 #dictamen in credsco
-
-varcat<-factor(db[,k])
-fdic1 = tapply(Psi[,eje1],varcat,mean)
-fdic2 = tapply(Psi[,eje2],varcat,mean) 
-plot.new()
-points(fdic1,fdic2,pch=16,col="blue", labels=levels(varcat))
-text(fdic1,fdic2,labels=levels(varcat),col="black", cex=0.7)
-
-#Now we project both cdgs of levels of a selected qualitative variable without
-#representing the individual anymore
-
-
-plot(Psi[,eje1],Psi[,eje2],type="n")
-axis(side=1, pos= 0, labels = F, col="cyan")
-axis(side=3, pos= 0, labels = F, col="cyan")
-axis(side=2, pos= 0, labels = F, col="cyan")
-axis(side=4, pos= 0, labels = F, col="cyan")
-
-
-```
-
-```{r}
-
-```
-
 ```{r}
 #select your qualitative variable
 k<-1 #dictamen in credsco
@@ -432,6 +402,7 @@ colors<-c("red", "blue", "darkgreen", "orange", "violet", "magenta", "pink")
 
 #represent numerical variables in background
 ```
+
 ```{r}
 #represent numerical variables in background
 plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1,1), ylim=c(-3,1))
@@ -465,26 +436,26 @@ legend("bottomleft",names(db)[dcat],pch=19,col=colors, cex=0.6)
 dordi<-c(8)
 
 
-levels(factor(dd[,dordi[1]]))
+levels(factor(db[,dordi[1]]))
 #reorder modalities: when required
-dd[,dordi[1]] <- factor(dd[,dordi[1]], ordered=TRUE,  levels= c("WorkingTypeUnknown","altres sit","temporal","fixe","autonom"))
-levels(dd[,dordi[1]])
+db[,dordi[1]] <- factor(db[,dordi[1]], ordered=TRUE,  levels= c("WorkingTypeUnknown","altres sit","temporal","fixe","autonom"))
+levels(db[,dordi[1]])
 
 c<-1
 col<-length(dcat)+1
 for(k in dordi){
   seguentColor<-colors[col]
-  fdic1 = tapply(Psi[,eje1],dd[,k],mean)
-  fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
+  fdic1 = tapply(Psi[,eje1],db[,k],mean)
+  fdic2 = tapply(Psi[,eje2],db[,k],mean) 
   
   #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
   #connect modalities of qualitative variables
   lines(fdic1,fdic2,pch=16,col=seguentColor)
-  text(fdic1,fdic2,labels=levels(dd[,k]),col=seguentColor, cex=0.6)
+  text(fdic1,fdic2,labels=levels(db[,k]),col=seguentColor, cex=0.6)
   c<-c+1
   col<-col+1
 }
-legend("topleft",names(dd)[dordi],pch=19,col=colors[col:col+length(dordi)-1], cex=0.6)
+legend("topleft",names(db)[dordi],pch=19,col=colors[col:col+length(dordi)-1], cex=0.6)
 
 
 #Make two complementary factorial maps
@@ -493,4 +464,27 @@ colors<-c("red", "blue", "darkgreen", "orange", "violet", "magenta", "pink")
 
 
 ```
+This shows how much the numerical values vary from the mean
+```{r}
+# PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
+# PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
+# (we need a numeric Dictamen to color)
+
+varcat=factor(db[,1])
+plot(Psi[,1],Psi[,2],col=varcat)
+axis(side=1, pos= 0, labels = F, col="darkgray")
+axis(side=3, pos= 0, labels = F, col="darkgray")
+axis(side=2, pos= 0, labels = F, col="darkgray")
+axis(side=4, pos= 0, labels = F, col="darkgray")
+legend("bottomleft",levels(varcat),pch=1,col=c(1,2), cex=0.6)
+
+
+# Overproject THE CDG OF  LEVELS OF varcat
+fdic1 = tapply(Psi[,1],varcat,mean)
+fdic2 = tapply(Psi[,2],varcat,mean) 
+
+text(fdic1,fdic2,labels=levels(factor(varcat)),col="cyan", cex=0.75)
+
+```
+
 
