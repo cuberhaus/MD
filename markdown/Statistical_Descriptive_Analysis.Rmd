@@ -14,21 +14,17 @@ dbRaw <- readRDS("./data/BeforeMissing.rds")
 dbPreprocessed <- readRDS("./data/Preprocessed_data_rds.rds")
 ```
 ```{r, echo=FALSE}
-dim(dbRaw)
+# Get data metrics (rows and columns)
 n<-dim(dbPreprocessed)[1]
 K<-dim(dbPreprocessed)[2]
-
-# Create table of the names of out features
-#print(kable(names(db), align = "c", booktabs = TRUE) %>%
-#       kable_styling(latex_options = "HOLD_position")
-      
-# Create a table with the variables name and type
-#sapply(dbPreprocessed, class)
 ```
 
-\newpage
+\section{Univariate analysis}
 ```{r echo = FALSE,  warning=FALSE, results = 'asis', fig.align='center'}
 #sudo apt-get install libcurl4-openssl-dev
+#sudo apt-get install libxml2-dev
+#sudo apt-get install libfreetype6-dev
+#sudo apt-get install libfontconfig1-dev
 #install.packages("kableExtra", dependencies = TRUE)
 library(knitr)
 library(kableExtra)
@@ -142,16 +138,16 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 for (i in actives) {
   name <- names(dbPreprocessed)[i]
   if (i != 1) cat("\\newpage")
-  j <- i+1
-  while (j <= length(actives)) {
-    next_name <- names(dbPreprocessed)[j]
-    if (i+1 != j) cat("\\newpage")
-    plot(dbPreprocessed[,i], dbPreprocessed[,next_name], pch=16, 
-         col=alpha('blue', 0.6),main= paste(name, "vs", 
-         next_name),xlab=name, ylab=next_name)
-    
-    if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", next_name, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
-    j <- j+1
+  for (j in actives) {
+    if (j != i) {
+	  next_name <- names(dbPreprocessed)[j]
+	  if (j != 1) cat("\\newpage")
+	  plot(dbPreprocessed[,i], dbPreprocessed[,next_name], pch=16, 
+		   col=alpha('blue', 0.6),main= paste(name, "vs", 
+		   next_name),xlab=name, ylab=next_name)
+		
+	  if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", next_name, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
+    }
   }
 }
 ```
