@@ -135,18 +135,18 @@ library(kableExtra)
 knitr::opts_chunk$set(fig.pos = 'H')                    
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
+var <- c("capital.gains", "age", "capital.losses" , "class.of.worker" , "education", "income", "dividends.from.stocks", "race", "sex", "veterans.benefits", "wage.per.hour")
+
 for (i in actives) {
   name <- names(dbPreprocessed)[i]
   if (i != 1) cat("\\newpage")
-  for (j in actives) {
-    if (j != i) {
-	  next_name <- names(dbPreprocessed)[j]
-	  if (j != 1) cat("\\newpage")
-	  plot(dbPreprocessed[,i], dbPreprocessed[,next_name], pch=16, 
+  for (j in var) {
+    if (j != name) {
+	  plot(dbPreprocessed[,i], dbPreprocessed[,j], pch=16, 
 		   col=alpha('blue', 0.6),main= paste(name, "vs", 
-		   next_name),xlab=name, ylab=next_name)
+		   j),xlab=name, ylab=j)
 		
-	  if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", next_name, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
+	  if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", j, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
     }
   }
 }
