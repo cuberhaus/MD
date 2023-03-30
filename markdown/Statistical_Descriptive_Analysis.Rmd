@@ -128,12 +128,23 @@ par(ask=FALSE)
 \newpage
 \section{Bivariate analysis}
 ```{r echo = FALSE,  warning=FALSE, results = 'asis', fig.align='center'}
+library(corrplot)
+
+numeric_columns <- sapply(dbPreprocessed, is.numeric)
+numeric_column_names <- names(dbPreprocessed)[numeric_columns]
+
+res <- cor(dbPreprocessed[,numeric_column_names])
+round(res, 2)
+
+corrplot(res)
+
+
 library(knitr)
 library(scales)
 library(kableExtra)
 
-knitr::opts_chunk$set(fig.pos = 'H')                    
-knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+knitr::opts_chunk$set(fig.pos = 'H')
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 var <- c("capital.gains", "age", "capital.losses" , "class.of.worker" , "education", "income", "dividends.from.stocks", "race", "sex", "veterans.benefits", "wage.per.hour")
 
@@ -142,11 +153,11 @@ for (i in actives) {
   if (i != 1) cat("\\newpage")
   for (j in var) {
     if (j != name) {
-	  plot(dbPreprocessed[,i], dbPreprocessed[,j], pch=16, 
-		   col=alpha('blue', 0.6),main= paste(name, "vs", 
+	  plot(dbPreprocessed[,i], dbPreprocessed[,j], pch=16,
+		   col=alpha('blue', 0.6),main= paste(name, "vs",
 		   j),xlab=name, ylab=j)
-		
-	  if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", j, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j]))) 
+
+	  if (is.numeric(dbPreprocessed[,i]) && is.numeric(dbPreprocessed[,j])) cat(paste("Correlation between ", name, " and ", j, ": ", cor(dbPreprocessed[,i], dbPreprocessed[,j])))
     }
   }
 }

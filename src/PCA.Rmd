@@ -413,7 +413,7 @@ for(k in dcat){
   fdic2 = tapply(Psi[,eje2],db[,k],mean) 
   
   #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
-  text(fdic1,fdic2,labels=levels(factor(db[,k])),col=seguentColor, cex=0.6)
+  text(fdic1,fdic2,labels=levels(db[,k]),col=seguentColor, cex=0.6)
   c<-c+1
 }
 legend("bottomleft",names(db)[dcat],pch=19,col=colors, cex=0.6)
