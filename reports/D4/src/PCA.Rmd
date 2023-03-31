@@ -16,15 +16,6 @@ library(dplyr)
 ```
 
 ## Read Data
-
-#\`\`\`{r, echo=FALSE} \# Go to the MD project folder before running the script #dir \<- "C:/Users/polcg/repos/MD" \# for some reason the it can't access current directory \# Import preprocessed data \# db \<- read.csv(paste0(dir,"/data/Preprocessed_data.csv"),header=T, sep=",", strip.white = TRUE) \# take out trailing whitespaces
-
-# read dataframe back in from RDS file
-
-#db \<- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds")) #\`\`\`
-
-# Try this to read the data
-
 ```{r, echo=FALSE}
 # Get the data
 db <- readRDS("./data/Preprocessed_data_rds.rds")

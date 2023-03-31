@@ -1,3 +1,6 @@
+# Set working directory path
+parent_dir <- dirname(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(parent_dir)
 # Go to the MD project folder before running the script
 dir <- getwd()
 # Import raw data

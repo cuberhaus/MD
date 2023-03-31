@@ -1,6 +1,10 @@
+# Set working directory path
+parent_dir <- dirname(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(parent_dir)
+
 library(dplyr)
 dir <- getwd()
-dd <- readRDS(paste0(dir,"/Preprocessed_data_rds.rds"))
+dd <- readRDS(paste0(dir,"/data/Preprocessed_data_rds.rds"))
 
 
 names(dd)
