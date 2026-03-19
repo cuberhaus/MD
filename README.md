@@ -1,50 +1,52 @@
-# MD
+# MD (Data Mining & Modeling)
 
-## Structure of the repository
+## Overview
 
-MD/  <br>
-├── data/  <br>
-│   ├── raw_data/  <br>
-│   ├── processed_data/  <br>
-│   ├── train_data/  <br>
-│   └── test_data/  <br>
-├── models/  <br>
-│   ├── model_1/  <br>
-│   ├── model_2/  <br>
-│   ├── model_3/  <br>
-│   └── ...  <br>
-├── src/  <br>
-│   └── ...  <br>
-├── docs/  <br>
-│   └── ...  <br>
-├── slides/  <br>
-│   └── ...  <br>
-├── reports/  <br>
-│   ├── D1/  <br>
-│   ├── D2/  <br>
-│   ├── D3/  <br>
-│   ├── D4/  <br>
-│   ├── D5/  <br>
-│   └── ...  <br>
-├── misc/  <br>
-│   └── ...  <br>
-├── README.md  <br>
-└── requirements.txt  <br>
+This repository contains data mining projects and practical assignments (Prácticas). It is structured as an **R Project** (`MD.Rproj`) and utilizes `renv` for reproducible dependency management.
 
-- data/: This directory contains all the data used in the project. The raw_data/ directory contains the raw data, the processed_data/ directory contains the preprocessed data, the train_data/ directory contains the data used for training the models, and the test_data/ directory contains the data used for testing the models.
+## Repository Structure
 
-- models/: This directory contains all the trained models.
+```text
+MD/
+├── Practica_1/        # First practical assignment (deliverables, presentations, raw data descriptions)
+├── Practica_2/        # Second practical assignment (tasks and documentation)
+├── data/              # Raw, processed, and split datasets
+├── src/               # R scripts and source code for data processing and analysis
+├── markdown/          # RMarkdown files and notebooks
+├── reports/           # Generated reports and project deliverables (e.g., D1, D3, D4)
+├── slides/            # Presentations and slides used in class or for project defense
+├── docs/              # Additional project documentation
+├── teoria/            # Theoretical notes and course materials
+├── misc/              # Miscellaneous files and temporary resources
+├── renv/              # Local R environment library
+├── renv.lock          # renv lockfile for dependency reproducibility
+├── BeforeMissing.rds  # Intermediate dataset state (R data file)
+└── Preprocessed_data.csv # Preprocessed dataset in CSV format
+```
 
-- src/: This directory contains the source code for the project, such as scripts and modules used for data processing, model training, and evaluation.
+## Directory Details
 
-- docs/: This directory contains project documentation, such as a project plan, a user manual, or any other relevant documents.
+- **`Practica_1/` & `Practica_2/`**: Contain the main assignment deliverables, including Word documents, Excel grids, and PowerPoint presentations outlining the analysis steps.
+- **`data/`**: The primary data folder. Data analysis pipelines ingest data from this folder or the root directory (like `Preprocessed_data.csv` and `BeforeMissing.rds`) and output the processed models.
+- **`src/` & `markdown/`**: These directories contain the source code for the project. R scripts and RMarkdown models used for data processing, model training, and evaluation are organized here.
+- **`reports/` & `slides/`**: Contain formal reports, papers, and presentations generated during the course of the project.
+- **`teoria/`**: Course theory and related study materials.
 
-- slides/: This directory contains slides related to the project given in class.
+## Setup & Execution
 
-- reports/: This directory contains reports generated from the project, such as papers, presentations, and other documents. Each subdirectory within this directory could correspond to a specific project deliverable or milestone, such as D1 for the first project deliverable, D2 for the second, and so on.
+### Prerequisites
+- [R](https://www.r-project.org/) and optionally [RStudio](https://rstudio.com/)
+- The `renv` package installed in R.
 
-- misc/ or other/: This directory contains files or resources that do not fit into any of the other existing directories in the project repository. The contents of the "misc" folder may be unrelated to the main goals or components of the project, but they may still be useful or relevant to the project. Examples of files or resources that may be stored in a "misc" folder include temporary files or backups, files used for testing or experimentation, or documentation or resources related to the project, but not directly used by any of the other directories. By keeping these files organized in a separate directory, it helps to keep the other directories clean and focused on the main objectives of the project.
+### Environment Setup
+This project uses `renv` to maintain dependencies. To restore the exact package versions used in this project:
 
-- README.md: This file contains a brief description of the project, its goals, and its outcomes.
+1. Open `MD.Rproj` in RStudio or launch R from the project root.
+2. `renv` will automatically bootstrap itself using the `.Rprofile`.
+3. Run the following command in the R console to restore the environment:
+   ```R
+   renv::restore()
+   ```
 
-- requirements.txt: This file lists all the required packages and libraries needed to run the project. It could be used to create a virtual environment for the project or to install dependencies on a deployment environment.
+## Disclaimer
+Note that large data files and sensitive artifacts might be excluded via `.gitignore`. The files `BeforeMissing.rds` and `Preprocessed_data.csv` are tracked in the root for direct access during initial evaluation.
